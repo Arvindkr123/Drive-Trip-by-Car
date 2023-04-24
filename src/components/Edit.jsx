@@ -1,19 +1,25 @@
 import axios from 'axios';
-import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 
+function Edit() {
 
-function Create() {
-
+    const [id, setId] = useState(0);
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
     const [email, setEmail] = useState('');
-
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        setId(localStorage.getItem('id'));
+        setName(localStorage.getItem('name'));
+        setAge(localStorage.getItem('age'));
+        setEmail(localStorage.getItem('email'));
+    }, [])
+
+    const handleUpdate = (e) => {
         e.preventDefault();
-        axios.post('https://63b3f7299f50390584a2c2aa.mockapi.io/crud', {
+        axios.put(`https://63b3f7299f50390584a2c2aa.mockapi.io/crud/${id}`, {
             e_name: name,
             e_age: age,
             e_email: email
@@ -34,36 +40,30 @@ function Create() {
                         </Link>
                     </div>
                     <div className='bg-primary p-4 text-center'>
-                        <h1>Create Data</h1>
+                        <h1>Update Data</h1>
                     </div>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleUpdate}>
                         <div className='form-group'>
                             <label>Enter Name: </label>
-                            <input type='text' placeholder='Name' className='form-control' onChange={(e) => setName(e.target.value)} />
+                            <input type='text' value={name} onChange={(e) => setName(e.target.value)} placeholder='Name' className='form-control' />
                         </div>
                         <div className='form-group'>
                             <label>Enter Age: </label>
-                            <input type='number' placeholder='Age' onChange={(e) => setAge(e.target.value)} className='form-control' />
+                            <input type='number' value={age} onChange={(e) => setAge(e.target.value)} placeholder='Age' className='form-control' />
                         </div>
                         <div className='form-group'>
                             <label>Enter Email: </label>
-                            <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} className='form-control' />
+                            <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' className='form-control' />
                         </div>
                         <br />
                         <div className='d-grid'>
-                            <input type='submit' value='Submit' className='btn btn-primary' />
+                            <input type='submit' value='Update' className='btn btn-primary' />
                         </div>
                     </form>
-
-                    {name}
-                    <br />
-                    {age}
-                    <br />
-                    {email}
                 </div>
             </div>
         </>
     )
 }
 
-export default Create;
+export default Edit
