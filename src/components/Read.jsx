@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 
 const Read = () => {
     const [apiData, setApiData] = useState([]);
+    const BASE_URL = 'https://crudcrud.com/api/5f9fd62462f34a20b6b077c0da693016/StudenData'
     const getData = () => {
         axios
             .get(
-                "https://crudcrud.com/api/5534a09d56dd41009046b3622b6318ca/StudenData"
+                BASE_URL
             )
             .then((response) => {
                 setApiData(response.data);
